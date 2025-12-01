@@ -58,7 +58,7 @@ def crawl_row(row: Dict[str, str | None], context: Context) -> None:
     if not any(row.values()):
         return
     raw_entity_name = row.pop("entity_name", None)
-    decision_number = row.pop("decision_no")
+    decision_number = row.pop("decision_no", None)
     entity_name = clean_entity_name(raw_entity_name)
 
     if entity_name:
@@ -72,11 +72,14 @@ def crawl_row(row: Dict[str, str | None], context: Context) -> None:
                 context, entity, "ara", entity_name, TRANSLIT_OUTPUT
             )
     else:
-        raw_person_name = row.pop("name", row.pop("person_name"))
+        raw_person_name = row.pop("name", None) or row.pop("person_name", None)
+        if raw_person_name is None:
+            context.log.warning("Row has neither entity_name nor person_name", row=row)
+            return
         parts = h.multi_split(raw_person_name, NAME_SPLITS)
         name = parts[0]
         aliases = parts[1:]
-        birth_date = row.pop("dob")
+        birth_date = row.pop("dob", None)
         entity = context.make("Person")
         entity.id = context.make_id(raw_person_name, birth_date)
         entity.add("nationality", row.pop("nationality", None), lang="ara")
@@ -84,7 +87,7 @@ def crawl_row(row: Dict[str, str | None], context: Context) -> None:
         h.apply_name(
             entity,
             full=name,
-            matronymic=row.pop("matronymic"),
+            matronymic=row.pop("matronymic", None),
             lang="ara",
         )
         entity.add("alias", aliases, lang="ara")

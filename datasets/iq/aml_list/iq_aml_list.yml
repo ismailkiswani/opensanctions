@@ -19,9 +19,9 @@ description: |
 
   **Note:** This crawler uses an LLM-based approach to transliterate entity names.
 publisher:
-  name: Republic of Iraq Anti-Money Laundering and Countering Financing of Terrorism Office
+  name: SCT-AML (Republic of Iraq Anti-Money Laundering and Countering Financing of Terrorism Office)
   description: >
-    The Office of Combating Money Laundering and Terrorist Financing, established within the
+    The Office of Combating Money Laundering and Terrorist Financing (SCT-AML), established within the
     Central Bank of Iraq, operates with full independence to address financial crimes. Its
     mission involves the collection, analysis, and dissemination of information related to
     suspected money laundering and terrorism financing activities.
